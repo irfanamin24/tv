@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>IrfanAmin24 - SSC 1</title>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+    <!-- CDNBye Plugin -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <!-- JWPlayer Hlsjs Provider -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
+    <!-- JW Player Builds -->
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        .jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-logo {
+            background-image: url('https://i.ibb.co/51hKXQv/Banner.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="player"></div>
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.0/jwplayer.js"></script>
+    <script>
+        jwplayer.key = 'uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=';
+    </script>
+    <script>
+        var playerInstance = jwplayer("player");
+
+        playerInstance.setup({
+            playlist: [{
+                title: "PabloLaputa",
+                image: "https://i.ibb.co/51hKXQv/Banner.jpg",
+                sources: [{
+                    default: false,
+                    type: "dash",
+                    file: "https://linear037-ie-dash1-prd-ak.cdn.skycdp.com/016a/Content/DASH_003_hd/Live/channel(premier1sports50)/manifest_hd.mpd",
+                    drm: {
+                        clearkey: {
+                            keyId: "00059cff7b261aa9b2fcbd57ad1ca332",
+                            key: "1872a5a3afb4f369ab339024a09fda25",
+                        },
+                    },
+                    label: "0",
+                },],
+            },],
+            controls: true,
+            displaytitle: true,
+            fullscreen: "true",
+            primary: "html5",
+            width: "100%",
+            height: "100%",
+            aspectratio: "16:9",
+            autostart: false,
+            cast: {},
+        });
+    </script>
+</body>
+
+</html>
