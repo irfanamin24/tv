@@ -1,70 +1,76 @@
-<!DOCTYPE html>
+
 <html>
-  <head>
-    <meta charset="UTF-8" />
+
+<head>
     <title>IrfanAmin24 - ASTRO Beinsports 1</title>
-    <script
-      disable-devtool-auto
-      src="https://cdn.jsdelivr.net/npm/disable-devtool"
-    ></script>
-    <!-- CDNBye Plugin -->
-    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
-    <!-- JWPlayer Hlsjs Provider -->
-    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
-    <!-- JW Player Builds -->
-    <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style>
-      .jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-logo {
-        background-image: url("https://i.ibb.co/51hKXQv/Banner.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.5;
-      }
-    </style>
-  </head>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+    <meta name="referrer" content="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/gh/Carryway/file@master/shaka-player.ui.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Carryway/file@master/controls.css" />
+</script>
+  <style>
+    body {
+      background-color: #242424;
+    }
+  </style>
+</script>
+</head>
 
-  <body>
-    <div id="player"></div>
-    <script src="//ssl.p.jwpcdn.com/player/v/8.21.0/jwplayer.js"></script>
+<body>
+    <center>
+            <div data-shaka-player-container style='width: 100%; height: 100%'>
+            <video poster="https://i.ibb.co/51hKXQv/Banner.jpg" data-shaka-player="" id="video"
+        style="width: 100%; height: 100%" class="shaka-video"></video>
+        </div>
+    </center>
     <script>
-      jwplayer.key = "uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=";
-    </script>
-    <script>
-      var playerInstance = jwplayer("player");
-
-      playerInstance.setup({
-        playlist: [
-          {
-            title: "Beinsports 1 - MY",
-            image: "https://i.ibb.co/51hKXQv/Banner.jpg",
-            sources: [
-              {
-                default: false,
-                type: "dash",
-                file: "https://kutilkuda.adventureoryx.workers.dev/dash-wv/linear/408/default.mpd",
+        const manifestUri = "https://dcqkiaqc3sngm.cloudfront.net/CH5/masterCH5.mpd";
+        async function init() {
+            const video = document.getElementById('video');
+            const ui = video['ui'];
+            const controls = ui.getControls();
+            const player = controls.getPlayer();
+            window.player = player;
+            window.ui = ui;
+            player.configure({
                 drm: {
-                  clearkey: {
-                    keyId: "1a655189ab5c49eb235308c2b1a9e710",
-                    key: "3c4508af348844107f5e026a4fd6b16e",
-                  },
-                },
-                label: "0",
-              },
-            ],
-          },
-        ],
-        controls: true,
-        displaytitle: true,
-        fullscreen: "true",
-        primary: "html5",
-        width: "100%",
-        height: "100%",
-        aspectratio: "16:9",
-        autostart: false,
-        cast: {},
-      });
+                    "clearKeys": {
+                        "9fbffd1ff21340169a5a1142bcf4ddad": "4b3898bc8a6ffd8b5cb34a7cd906dc35"
+                    }
+                }
+            });
+            player.addEventListener('error', onPlayerErrorEvent);
+            controls.addEventListener('error', onUIErrorEvent);
+            try {
+                await player.load(manifestUri);
+                console.log('The video has now been loaded!');
+            } catch (error) {
+                onPlayerError(error);
+            }
+            player.getNetworkingEngine().registerRequestFilter(function(type, request) {
+                if (type == shaka.net.NetworkingEngine.RequestType.SEGMENT) {
+                    request.headers['authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3bXZlciI6Miwid21pZGZtdCI6ImFzY2lpIiwid21pZHR5cCI6MSwid21rZXl2ZXIiOjEsIndtaWRsZW4iOjUxMiwid21pZCI6Ik4yVTRZakE0WkRBdFlqTmtPQzAwWXpJNUxUbGtOMkl0TUdZMk9UZGpZMkkxWmpSbCIsIndtb3BpZCI6MzIsImV4cCI6MTcwMjAyOTA3MiwiaWF0IjoxNzAxNDI1MDcyfQ.DTMcK51p6sAszIVTWM-UNO8NTW-GnU_DEjf3VU8tquo';                }
+            });
+        }
+
+        function onPlayerErrorEvent(errorEvent) {
+            onPlayerError(event.detail);
+        }
+
+        function onPlayerError(error) {
+            console.error('Error code', error.code, 'object', error);
+        }
+
+        function onUIErrorEvent(errorEvent) {
+            onPlayerError(event.detail);
+        }
+
+        function initFailed(errorEvent) {
+            console.error('Unable to load the UI library!');
+        }
+        document.addEventListener('shaka-ui-loaded', init);
+        document.addEventListener('shaka-ui-load-failed', initFailed);
     </script>
-  </body>
+</body>
+
 </html>
