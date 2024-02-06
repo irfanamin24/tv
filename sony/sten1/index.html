@@ -37,8 +37,6 @@
       playerInstance.setup({
         playlist: [
           {
-            title: "SonySports TEN 1",
-            image: "https://i.ibb.co/51hKXQv/Banner.jpg",
             sources: [
               {
                 default: false,
@@ -48,15 +46,17 @@
             ],
           },
         ],
-        controls: true,
-        displaytitle: true,
-        fullscreen: "true",
-        primary: "html5",
         width: "100%",
         height: "100%",
         aspectratio: "16:9",
-        autostart: false,
+        autostart: true,
+        logo: {
+          file: "",
+          link: "https://www.sportsnews.id/",
+          position: "top-right",
+        },
         cast: {},
+        sharing: {},
       });
     </script>
   </body>
