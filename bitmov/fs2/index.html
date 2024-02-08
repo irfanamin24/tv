@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      disable-devtool-auto
+      src="https://cdn.jsdelivr.net/npm/disable-devtool"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IrfanAmin24 - Fox Sport 2 US</title>
+    <link rel="stylesheet" type="text/css" href="/streams/bitmovin.css" />
+    <script
+      type="text/javascript"
+      src="//bitmovin-a.akamaihd.net/bitmovin-player/stable/7.8/bitmovinplayer.js"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/streams/bitmovin.js"></script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .player-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .bmpui-ui-watermark,
+      .bmpui-ui-recommendation-overlay {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="my-player"></div>
+    <script>
+      $(document).ready(function () {
+        $(document)[0].oncontextmenu = function () {
+          return false;
+        };
+
+        $(document).mousedown(function (e) {
+          if (e.button == 2) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      });
+      async function getDashManifestUrl() {
+        try {
+          const response = await fetch(
+            "https://cbd46b77.cdn.cms.movetv.com/playermetadata/sling/v1/api/channels/2173abf2ce324fe6837c8ab10c4a22cd/schedule/now/playback_info.qvt"
+          );
+          const data = await response.json();
+          if (data.playback_info && data.playback_info.dash_manifest_url) {
+            var rand = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+            var playReadyLaURL = "https://p-drmwv.movetv.com/widevine/proxy";
+            var widevineLaURL = "https://p-drmwv.movetv.com/widevine/proxy";
+
+            $(document).ready(function () {
+              var conf = {
+                key: "Y2tvaWtjY29lbSEqXyVrZG9lYTJzZT9yb201ZGFzaXMzMGRiMEElXzo=",
+                style: {
+                  width: "100%",
+                  aspectratio: "16:9",
+                  controls: true,
+                },
+                source: {
+                  dash:
+                    "https://images112-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&url=" +
+                    data.playback_info.dash_manifest_url,
+                  poster: "https://i.ibb.co/51hKXQv/Banner.jpg",
+                  drm: {
+                    widevine: {
+                      LA_URL: widevineLaURL,
+                      prepareMessage: function (keyMessage) {
+                        return JSON.stringify({
+                          env: "production",
+                          user_id: "eb719602-6ae6-11e9-a061-0a905c1a333e",
+                          channel_id: "0c6964d26bcd450cb7d8c8af10b9da20",
+                          message: Array.apply(
+                            null,
+                            new Uint8Array(keyMessage.message)
+                          ),
+                        });
+                      },
+                    },
+                    playready: {
+                      LA_URL: playReadyLaURL,
+                    },
+                  },
+                },
+                network: {
+                  preprocessHttpRequest: function (type, request) {
+                    if (
+                      type ===
+                      bitmovin.player.network.REQUEST_TYPE.DRM_LICENSE_WIDEVINE
+                    ) {
+                      request.method = "POST";
+                      request.headers.push({
+                        name: "Authorization",
+                        value:
+                          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjM1Mzg2NjY1LTMzNjQtNjMzNy0zMjY0LTM5MzUzNTY2Mzk2NCJ9.eyJ1c2VyX2d1aWQiOiIyYzAzNjY0YS01ZjA2LTExZTYtODU1YS0wZTE3YThlYTU5NDEiLCJjaGFubmVsX2d1aWQiOiIyMTczYWJmMmNlMzI0ZmU2ODM3YzhhYjEwYzRhMjJjZCIsImR5bmFfaWQiOiI1NjEiLCJxdnQiOiJodHRwczovL2NiZDQ2Yjc3LmNkbi5jbXMubW92ZXR2LmNvbS9wbGF5ZXJtZXRhZGF0YS9zbGluZy92MS9hcGkvY2hhbm5lbHMvMjE3M2FiZjJjZTMyNGZlNjgzN2M4YWIxMGM0YTIyY2QvY3VycmVudC9zY2hlZHVsZS5xdnQifQ.o5qwGdFoPFjjCJYbDWgwyXBWF5L6GcEIhPBM3oGgfMS_zZghDUh3jk6pELP9kJ7EtMqlJuk7e_4elrY2ElNK2dIooEDLDSCjA7DafcEKCFLAt2C1gfRknoCGJAUGVF0LLv_deAowiRbDC5ldvV_xEzc1nSk57UccTApRG-Qr5bFDukIVRVLokxS3WwBHoff3MmrKKFkUWgG-uX1LKMk5a0IGmqBAwUxCf-5JrLcW8WxQGdFXdOxwxywBS2GWHc_HWZFNN694_Ehctxwh3EQrlh9M1yBo6omF3cB7DYfHJbkDB-H0zpM0kdOZgK1U6S2DwadBRXi8pRW7-PEaloVsKg",
+                      });
+
+                      return Promise.resolve(request);
+                    }
+                    if (
+                      request.url.includes(".mp4") ||
+                      request.url.includes(".m4s")
+                    ) {
+                      request.url =
+                        "https://images112-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&url=" +
+                        request.url;
+                    }
+
+                    return request;
+                  },
+                },
+              };
+              var player = bitmovin.player("my-player");
+
+              player.setup(conf).then(
+                function (value) {
+                  // Success
+                  console.log("Successfully created bitmovin player instance");
+                },
+                function (reason) {
+                  // Error!
+                  console.log("Error while creating bitmovin player instance");
+                }
+              );
+            });
+          } else {
+            throw new Error("bad data.playback_info.dash_manifest_url");
+          }
+        } catch (error) {
+          throw new Error(error);
+        }
+      }
+      getDashManifestUrl();
+    </script>
+  </body>
+</html>
