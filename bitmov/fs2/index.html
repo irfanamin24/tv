@@ -13,23 +13,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/streams/bitmovin.js"></script>
-    <script language="JavaScript" type="text/javascript">
-      var onlyOnImages = !1,
-        isIE5 = document.all && document.getElementById,
-        isMoz = !isIE5 && document.getElementById;
-      function cancelContextMenu(e) {
-        return (location.href = "https://carryflix.icu/"), !1;
-      }
-      function onContextMenu(e) {
-        if (
-          !onlyOnImages ||
-          (isIE5 && "IMG" == event.srcElement.tagName) ||
-          (IsMoz && "IMG" == e.target.tagName)
-        )
-          return cancelContextMenu(e);
-      }
-      document.getElementById && (document.oncontextmenu = onContextMenu);
-    </script>
     <style>
       html,
       body {
