@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://carryflix.icu/streams/bitmovin.css"
+    />
+    <script
+      type="text/javascript"
+      src="//bitmovin-a.akamaihd.net/bitmovin-player/stable/7.8/bitmovinplayer.js"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://carryflix.icu/streams/bitmovin.js"></script>
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .player-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .bmpui-ui-watermark,
+      .bmpui-ui-recommendation-overlay {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="my-player"></div>
+    <script>
+      $(document).ready(function () {
+        $(document)[0].oncontextmenu = function () {
+          return false;
+        };
+
+        $(document).mousedown(function (e) {
+          if (e.button == 2) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      });
+      async function getDashManifestUrl() {
+        try {
+          const response = await fetch(
+            "https://cbd46b77.cdn.cms.movetv.com/playermetadata/sling/v1/api/channels/ca0cad8dbb4a4e68962810d8a6aa8b6a/schedule/now/playback_info.qvt"
+          );
+          const data = await response.json();
+          if (data.playback_info && data.playback_info.dash_manifest_url) {
+            var rand = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+            var playReadyLaURL = "https://p-drmwv.movetv.com/widevine/proxy";
+            var widevineLaURL = "https://p-drmwv.movetv.com/widevine/proxy";
+
+            $(document).ready(function () {
+              var conf = {
+                key: "Y2tvaWtjY29lbSEqXyVrZG9lYTJzZT9yb201ZGFzaXMzMGRiMEElXzo=",
+                style: {
+                  width: "100%",
+                  aspectratio: "16:9",
+                  controls: true,
+                },
+                source: {
+                  dash:
+                    "https://images112-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&url=" +
+                    data.playback_info.dash_manifest_url,
+                  poster: "https://i.ibb.co/51hKXQv/Banner.jpg",
+                  drm: {
+                    widevine: {
+                      LA_URL: widevineLaURL,
+                      prepareMessage: function (keyMessage) {
+                        return JSON.stringify({
+                          env: "production",
+                          user_id: "eb719602-6ae6-11e9-a061-0a905c1a333e",
+                          channel_id: "0c6964d26bcd450cb7d8c8af10b9da20",
+                          message: Array.apply(
+                            null,
+                            new Uint8Array(keyMessage.message)
+                          ),
+                        });
+                      },
+                    },
+                    playready: {
+                      LA_URL: playReadyLaURL,
+                    },
+                  },
+                },
+                network: {
+                  preprocessHttpRequest: function (type, request) {
+                    if (
+                      type ===
+                      bitmovin.player.network.REQUEST_TYPE.DRM_LICENSE_WIDEVINE
+                    ) {
+                      request.method = "POST";
+                      request.headers.push({
+                        name: "Authorization",
+                        value:
+                          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjM1Mzg2NjY1LTMzNjQtNjMzNy0zMjY0LTM5MzUzNTY2Mzk2NCJ9.eyJ1c2VyX2d1aWQiOiIyYzAzNjY0YS01ZjA2LTExZTYtODU1YS0wZTE3YThlYTU5NDEiLCJjaGFubmVsX2d1aWQiOiJjYTBjYWQ4ZGJiNGE0ZTY4OTYyODEwZDhhNmFhOGI2YSIsImR5bmFfaWQiOiIxMjkwIiwicXZ0IjoiaHR0cHM6Ly9jYmQ0NmI3Ny5jZG4uY21zLm1vdmV0di5jb20vcGxheWVybWV0YWRhdGEvc2xpbmcvdjEvYXBpL2NoYW5uZWxzL2NhMGNhZDhkYmI0YTRlNjg5NjI4MTBkOGE2YWE4YjZhL2N1cnJlbnQvc2NoZWR1bGUucXZ0In0.tV7eYWcJhO7LtzqFJV6VU7Inv50Kv_uXY4_eb6ApCCeS8cY9oPcfICmoX4RedZa_VAziMSZYvZOCduXXw4ITziQiTGhaEidJqVze_jmjrCfpem6BSV5BywYnO8ql8bIbfLoHMaYKkqTlb81ude3QSpClv5XpVC5rAMsBEa-1z1ojoNSJskOz2swJrKYOTtiiL7k4TFzFRUJpnE9PRZq9k1WNBEu6h8AOvyrVVtvKEEb_gXM8OMVVUfJx6wSqw_8D9wdqEhuGXYOuXjkllo61DoywN7rqgJESpk7igKVaxyKAlPsDy9s6sY6lPapMsEH8-G8zFHxhqNKPqB9DTLmu7w",
+                      });
+
+                      return Promise.resolve(request);
+                    }
+                    if (
+                      request.url.includes(".mp4") ||
+                      request.url.includes(".m4s")
+                    ) {
+                      request.url =
+                        "https://images112-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&url=" +
+                        request.url;
+                    }
+
+                    return request;
+                  },
+                },
+              };
+              var player = bitmovin.player("my-player");
+
+              player.setup(conf).then(
+                function (value) {
+                  // Success
+                  console.log("Successfully created bitmovin player instance");
+                },
+                function (reason) {
+                  // Error!
+                  console.log("Error while creating bitmovin player instance");
+                }
+              );
+            });
+          } else {
+            throw new Error("bad data.playback_info.dash_manifest_url");
+          }
+        } catch (error) {
+          throw new Error(error);
+        }
+      }
+      getDashManifestUrl();
+    </script>
+
+    <script>
+      (function (_0x56cf37, _0x5bb6f2) {
+        var _0x5e6197 = _0x40e8,
+          _0x3588ce = _0x56cf37();
+        while (!![]) {
+          try {
+            var _0x4922bd =
+              (-parseInt(_0x5e6197(0x200)) / 0x1) *
+                (parseInt(_0x5e6197(0x209)) / 0x2) +
+              -parseInt(_0x5e6197(0x1f6)) / 0x3 +
+              -parseInt(_0x5e6197(0x211)) / 0x4 +
+              -parseInt(_0x5e6197(0x1f7)) / 0x5 +
+              parseInt(_0x5e6197(0x1f2)) / 0x6 +
+              (-parseInt(_0x5e6197(0x1f1)) / 0x7) *
+                (parseInt(_0x5e6197(0x1f0)) / 0x8) +
+              parseInt(_0x5e6197(0x205)) / 0x9;
+            if (_0x4922bd === _0x5bb6f2) break;
+            else _0x3588ce["push"](_0x3588ce["shift"]());
+          } catch (_0x47c334) {
+            _0x3588ce["push"](_0x3588ce["shift"]());
+          }
+        }
+      })(_0x23e0, 0x228fe),
+        !(function (_0x15e211, _0x334866) {
+          var _0x1e7784 = _0x40e8;
+          _0x1e7784(0x1ee) == typeof exports && "undefined" != typeof module
+            ? _0x334866(exports)
+            : _0x1e7784(0x20a) == typeof define && define[_0x1e7784(0x1f5)]
+            ? define(["exports"], _0x334866)
+            : _0x334866(
+                ((_0x15e211 =
+                  "undefined" != typeof globalThis
+                    ? globalThis
+                    : _0x15e211 || self)[_0x1e7784(0x212)] = {})
+              );
+        })(this, function (_0xb20859) {
+          "use strict";
+          var _0x3a9ceb = _0x40e8;
+          var _0x390ef3 = function () {
+              var _0x3eea0b = _0x40e8;
+              return (
+                (_0x390ef3 =
+                  Object[_0x3eea0b(0x1fc)] ||
+                  function (_0x384605) {
+                    var _0x51fc11 = _0x3eea0b;
+                    for (
+                      var _0x14c61c,
+                        _0x4d61ef = 0x1,
+                        _0x174a19 = arguments["length"];
+                      _0x4d61ef < _0x174a19;
+                      _0x4d61ef++
+                    )
+                      for (var _0xd6c7f in (_0x14c61c = arguments[_0x4d61ef]))
+                        Object[_0x51fc11(0x1e9)][_0x51fc11(0x1e8)]["call"](
+                          _0x14c61c,
+                          _0xd6c7f
+                        ) && (_0x384605[_0xd6c7f] = _0x14c61c[_0xd6c7f]);
+                    return _0x384605;
+                  }),
+                _0x390ef3[_0x3eea0b(0x1fb)](this, arguments)
+              );
+            },
+            _0x3b1490 = { clear: !0x0, debug: !0x0, debugTime: 0xbb8 },
+            _0x2cc870 = 0x2,
+            _0x55f05d = function (_0x2fc24b) {
+              var _0x3fa1cb = _0x40e8;
+              return ~navigator[_0x3fa1cb(0x213)]
+                [_0x3fa1cb(0x1ed)]()
+                [_0x3fa1cb(0x1f8)](_0x2fc24b);
+            },
+            _0x5679d4 = function (_0x21e9f9, _0x4c85ab) {
+              _0x4c85ab !== _0x2cc870
+                ? (location["href"] = _0x21e9f9)
+                : location["replace"](_0x21e9f9);
+            },
+            _0x5e2bcc = 0x0,
+            _0x3594b4 = 0x0,
+            _0x3a9766 = function (_0x4159ee) {
+              var _0x3b331b = 0x0,
+                _0x4ef7ff = 0x1 << _0x5e2bcc++;
+              return function () {
+                (!_0x3594b4 || _0x3594b4 & _0x4ef7ff) &&
+                  0x2 === ++_0x3b331b &&
+                  ((_0x3594b4 |= _0x4ef7ff), _0x4159ee(), (_0x3b331b = 0x1));
+              };
+            },
+            _0x5c28b3 = function (_0x10404e) {
+              var _0x4ef757 = _0x40e8,
+                _0x56079e = /./;
+              _0x56079e[_0x4ef757(0x1f4)] = _0x3a9766(_0x10404e);
+              var _0x51d0be = function () {
+                return _0x56079e;
+              };
+              _0x51d0be[_0x4ef757(0x1f4)] = _0x3a9766(_0x10404e);
+              var _0x246a89 = new Date();
+              (_0x246a89[_0x4ef757(0x1f4)] = _0x3a9766(_0x10404e)),
+                console[_0x4ef757(0x20b)](
+                  "%c",
+                  _0x51d0be,
+                  _0x51d0be(),
+                  _0x246a89
+                );
+              var _0xc41abe,
+                _0x58e961,
+                _0x29cf6f = _0x3a9766(_0x10404e);
+              (_0xc41abe = _0x29cf6f),
+                (_0x58e961 = new Error()),
+                Object[_0x4ef757(0x208)](_0x58e961, "message", {
+                  get: function () {
+                    _0xc41abe();
+                  },
+                }),
+                console[_0x4ef757(0x20b)](_0x58e961);
+            },
+            _0x3a07ba = (function () {
+              var _0x9236ac = _0x40e8;
+              function _0x336580(_0x5a60be) {
+                var _0x1e7da0 = _0x40e8,
+                  _0x3d064c = _0x390ef3(_0x390ef3({}, _0x3b1490), _0x5a60be),
+                  _0x322e8c = _0x3d064c[_0x1e7da0(0x1fe)],
+                  _0x51b86b = _0x3d064c[_0x1e7da0(0x203)],
+                  _0x480409 = _0x3d064c["debugTime"],
+                  _0x4ca5b5 = _0x3d064c[_0x1e7da0(0x20c)],
+                  _0x91b0dc = _0x3d064c[_0x1e7da0(0x20d)],
+                  _0x53687b = _0x3d064c[_0x1e7da0(0x20e)];
+                (this[_0x1e7da0(0x1fd)] = _0x51b86b),
+                  (this[_0x1e7da0(0x1e7)] = _0x480409),
+                  (this[_0x1e7da0(0x1e5)] = _0x322e8c),
+                  (this[_0x1e7da0(0x1ff)] = _0x4ca5b5),
+                  (this["_redirect"] = _0x91b0dc),
+                  (this[_0x1e7da0(0x1eb)] = _0x53687b);
+              }
+              return (
+                (_0x336580["prototype"]["clear"] = function () {
+                  this["_clear"] && (console["clear"] = function () {});
+                }),
+                (_0x336580[_0x9236ac(0x1e9)][_0x9236ac(0x203)] = function () {
+                  var _0x4c920a = _0x9236ac;
+                  if (this["_debug"]) {
+                    var _0x3f1cae = new Function("debugger");
+                    setInterval(_0x3f1cae, this[_0x4c920a(0x1e7)]);
+                  }
+                }),
+                (_0x336580[_0x9236ac(0x1e9)][_0x9236ac(0x20d)] = function (
+                  _0x4945f5
+                ) {
+                  var _0x1ecf20 = _0x9236ac,
+                    _0x55a313 = this[_0x1ecf20(0x1f9)];
+                  if (_0x55a313) {
+                    if (0x0 !== _0x55a313[_0x1ecf20(0x1f8)]("http")) {
+                      var _0x433fba,
+                        _0x2479cd =
+                          location[_0x1ecf20(0x1ec)] +
+                          location[_0x1ecf20(0x1ef)];
+                      if (
+                        ((_0x433fba = _0x55a313)
+                          ? "/" !== _0x433fba[0x0]
+                            ? "/"[_0x1ecf20(0x1f3)](_0x433fba)
+                            : _0x433fba
+                          : "/") !== _0x2479cd
+                      )
+                        _0x5679d4(_0x55a313, _0x4945f5);
+                    } else
+                      location[_0x1ecf20(0x207)] !== _0x55a313 &&
+                        _0x5679d4(_0x55a313, _0x4945f5);
+                  }
+                }),
+                (_0x336580[_0x9236ac(0x1e9)][_0x9236ac(0x20c)] = function () {
+                  var _0xd1e3c9 = _0x9236ac;
+                  if (
+                    (this["_callback"] ||
+                      this[_0xd1e3c9(0x1f9)] ||
+                      this[_0xd1e3c9(0x1eb)]) &&
+                    window
+                  ) {
+                    var _0x589b0,
+                      _0x594ba = this[_0xd1e3c9(0x202)][_0xd1e3c9(0x1ea)](this),
+                      _0x1775c7 =
+                        window[_0xd1e3c9(0x201)] || _0x55f05d(_0xd1e3c9(0x201)),
+                      _0xdf05ac = _0x55f05d(_0xd1e3c9(0x1e6));
+                    if (!_0x1775c7)
+                      return _0xdf05ac
+                        ? (((_0x589b0 = /./)["toString"] = _0x594ba),
+                          void console[_0xd1e3c9(0x20b)](_0x589b0))
+                        : void (function (_0x2402bf) {
+                            var _0xb127b7 = _0xd1e3c9,
+                              _0x5df826 = new Image();
+                            Object[_0xb127b7(0x208)](_0x5df826, "id", {
+                              get: function () {
+                                _0x2402bf(_0x2cc870);
+                              },
+                            }),
+                              console[_0xb127b7(0x20b)](_0x5df826);
+                          })(_0x594ba);
+                    _0x5c28b3(_0x594ba);
+                  }
+                }),
+                (_0x336580["prototype"]["write"] = function () {
+                  var _0x3be71f = _0x9236ac,
+                    _0x35ce31 = this[_0x3be71f(0x1eb)];
+                  _0x35ce31 &&
+                    (document["body"][_0x3be71f(0x206)] =
+                      _0x3be71f(0x204) == typeof _0x35ce31
+                        ? _0x35ce31
+                        : _0x35ce31["innerHTML"]);
+                }),
+                (_0x336580[_0x9236ac(0x1e9)][_0x9236ac(0x202)] = function (
+                  _0x343805
+                ) {
+                  var _0x5a4bec = _0x9236ac;
+                  this[_0x5a4bec(0x1ff)]
+                    ? this["_callback"]["call"](null)
+                    : (this[_0x5a4bec(0x20d)](_0x343805),
+                      this[_0x5a4bec(0x1f9)] || this["write"]());
+                }),
+                (_0x336580[_0x9236ac(0x1e9)][_0x9236ac(0x210)] = function () {
+                  var _0x5ab681 = _0x9236ac;
+                  this["callback"](), this["clear"](), this[_0x5ab681(0x203)]();
+                }),
+                _0x336580
+              );
+            })();
+          (_0xb20859[_0x3a9ceb(0x20f)] = function (_0x5df327) {
+            var _0x12e94e = _0x3a9ceb;
+            new _0x3a07ba(_0x5df327)[_0x12e94e(0x210)]();
+          }),
+            Object[_0x3a9ceb(0x208)](_0xb20859, _0x3a9ceb(0x1fa), {
+              value: !0x0,
+            });
+        });
+      function _0x40e8(_0x108f49, _0x89f0ea) {
+        var _0x23e01e = _0x23e0();
+        return (
+          (_0x40e8 = function (_0x40e81a, _0x26d219) {
+            _0x40e81a = _0x40e81a - 0x1e5;
+            var _0x5a891a = _0x23e01e[_0x40e81a];
+            return _0x5a891a;
+          }),
+          _0x40e8(_0x108f49, _0x89f0ea)
+        );
+      }
+      function _0x23e0() {
+        var _0x3272fb = [
+          "_debug",
+          "clear",
+          "_callback",
+          "59266cbpNyy",
+          "chrome",
+          "fire",
+          "debug",
+          "string",
+          "7301403rIGzmX",
+          "innerHTML",
+          "href",
+          "defineProperty",
+          "8WczXiW",
+          "function",
+          "log",
+          "callback",
+          "redirect",
+          "write",
+          "init",
+          "ban",
+          "610272mTrofk",
+          "ConsoleBan",
+          "userAgent",
+          "_clear",
+          "firefox",
+          "_debugTime",
+          "hasOwnProperty",
+          "prototype",
+          "bind",
+          "_write",
+          "pathname",
+          "toLowerCase",
+          "object",
+          "search",
+          "16uDDPGr",
+          "668647EyPMZV",
+          "1523430wFAvjy",
+          "concat",
+          "toString",
+          "amd",
+          "691458tTNhWA",
+          "562230AsYKWj",
+          "indexOf",
+          "_redirect",
+          "__esModule",
+          "apply",
+          "assign",
+        ];
+        _0x23e0 = function () {
+          return _0x3272fb;
+        };
+        return _0x23e0();
+      }
+    </script>
+    <script>
+      // default options
+      ConsoleBan.init();
+      // custom options
+      ConsoleBan.init({
+        redirect: "/",
+      });
+    </script>
+    <script>
+      var allowedDomains = ["#", "#"];
+    </script>
+    <script>
+      // Get the domain of the current page
+      var currentDomain = location.hostname.split(".").slice(-2).join(".");
+
+      // Check if the current domain is in the list of allowed domains
+      if (allowedReferers.indexOf(document.referrer) === -1) {
+        // Redirect to an error page if the current domain is not allowed
+        window.location = "http://error.com/";
+      }
+    </script>
+    <script
+      disable-devtool-auto
+      src="https://cdn.jsdelivr.net/npm/disable-devtool"
+    ></script>
+  </body>
+</html>
