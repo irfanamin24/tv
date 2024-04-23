@@ -1,37 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>IrfanAmin24 - Beinsports 1 Thailand</title>
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+    <script
+      disable-devtool-auto
+      src="https://cdn.jsdelivr.net/npm/disable-devtool"
+    ></script>
     <!-- CDNBye Plugin -->
     <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
     <!-- JWPlayer Hlsjs Provider -->
     <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
     <!-- JW Player Builds -->
     <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-        .jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-logo {
-            background-image: url('https://i.ibb.co/51hKXQv/Banner.jpg');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            opacity: 0.5;
-        }
+      .jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-logo {
+        background-image: url("https://i.ibb.co/51hKXQv/Banner.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.5;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="player"></div>
     <script src="//ssl.p.jwpcdn.com/player/v/8.21.0/jwplayer.js"></script>
     <script>
-        jwplayer.key = 'uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=';
+      jwplayer.key = "uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=";
     </script>
     <script>
-function _0x2c45(){var _0x43ffb5=['10349920lYlGMM','https://i.ibb.co/51hKXQv/Banner.jpg','100%','84297tDMnFe','dash','bb274e33da0c709e62c55d0cba911889','true','player','16:9','46848ECICDf','68lxjnMp','390666KNPKDX','3812598KSVngV','2385466LCVzCn','730voibxy','295876jVMqKL','Beinsports 1 - TH','setup'];_0x2c45=function(){return _0x43ffb5;};return _0x2c45();}function _0x4186(_0x2b3599,_0x5c9949){var _0x2c452c=_0x2c45();return _0x4186=function(_0x41860f,_0x2c89d3){_0x41860f=_0x41860f-0x86;var _0x49d62d=_0x2c452c[_0x41860f];return _0x49d62d;},_0x4186(_0x2b3599,_0x5c9949);}var _0x407a73=_0x4186;(function(_0x3bd4f6,_0x28109b){var _0x306312=_0x4186,_0x5e5749=_0x3bd4f6();while(!![]){try{var _0x4a0e42=parseInt(_0x306312(0x8b))/0x1+parseInt(_0x306312(0x8d))/0x2+-parseInt(_0x306312(0x95))/0x3*(parseInt(_0x306312(0x8a))/0x4)+-parseInt(_0x306312(0x8e))/0x5*(parseInt(_0x306312(0x89))/0x6)+-parseInt(_0x306312(0x8f))/0x7+parseInt(_0x306312(0x92))/0x8+-parseInt(_0x306312(0x8c))/0x9;if(_0x4a0e42===_0x28109b)break;else _0x5e5749['push'](_0x5e5749['shift']());}catch(_0x5d6106){_0x5e5749['push'](_0x5e5749['shift']());}}}(_0x2c45,0xc1bfe));var playerInstance=jwplayer(_0x407a73(0x87));playerInstance[_0x407a73(0x91)]({'playlist':[{'title':_0x407a73(0x90),'image':_0x407a73(0x93),'sources':[{'default':![],'type':_0x407a73(0x96),'file':'https://ais-s.ais-vidnt.com/ais/play/origin/live/eds/S0001/DASH/S0001.mpd','drm':{'clearkey':{'keyId':'3fd52d1e9ba4b180aec12c9295b62c0f','key':_0x407a73(0x97)}},'label':'0'}]}],'controls':!![],'displaytitle':!![],'fullscreen':_0x407a73(0x86),'primary':'html5','width':_0x407a73(0x94),'height':_0x407a73(0x94),'aspectratio':_0x407a73(0x88),'autostart':![],'cast':{}});
-    </script>
-</body>
+      var playerInstance = jwplayer("player");
 
+      playerInstance.setup({
+        playlist: [
+          {
+            title: "Beinsports 1 - TH",
+            image: "https://i.ibb.co/51hKXQv/Banner.jpg",
+            sources: [
+              {
+                default: false,
+                type: "dash",
+                file: "https://49-231-37-235-rewriter.ais-vidnt.com/ais/play/origin/live/eds/S0001/DASH/S0001.mpd",
+                drm: {
+                  clearkey: {
+                    keyId: "3fd52d1e9ba4b180aec12c9295b62c0f",
+                    key: "bb274e33da0c709e62c55d0cba911889",
+                  },
+                },
+                label: "0",
+              },
+            ],
+          },
+        ],
+        controls: true,
+        displaytitle: true,
+        fullscreen: "true",
+        primary: "html5",
+        width: "100%",
+        height: "100%",
+        aspectratio: "16:9",
+        autostart: false,
+        cast: {},
+      });
+    </script>
+  </body>
 </html>
