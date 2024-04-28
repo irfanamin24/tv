@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>IrfanAmin24 - SSC 1</title>
+    <script
+      disable-devtool-auto
+      src="https://cdn.jsdelivr.net/npm/disable-devtool"
+    ></script>
+    <!-- CDNBye Plugin -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <!-- JWPlayer Hlsjs Provider -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
+    <!-- JW Player Builds -->
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      .jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-logo {
+        background-image: url("https://i.ibb.co/51hKXQv/Banner.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="player"></div>
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.0/jwplayer.js"></script>
+    <script>
+      jwplayer.key = "uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=";
+    </script>
+    <script>
+      var playerInstance = jwplayer("player");
+
+      playerInstance.setup({
+        playlist: [
+          {
+            title: "SSC 1 - Saudi Arabia",
+            image: "https://i.ibb.co/51hKXQv/Banner.jpg",
+            sources: [
+              {
+                default: false,
+                type: "dash",
+                file: "https://ssc-extra2-ak.akamaized.net/out/v1/8b70de2b70d447ba8a7450ba90926a2d/index.mpd",
+                drm: {
+                  clearkey: {
+                    keyId: "4d89249bd4ca4ebc9e70443265f9507d",
+                    key: "cf074ffd2646c9c2f8513b47fa57bc30",
+                  },
+                },
+                label: "0",
+              },
+            ],
+          },
+        ],
+        controls: true,
+        displaytitle: true,
+        fullscreen: "true",
+        primary: "html5",
+        width: "100%",
+        height: "100%",
+        aspectratio: "16:9",
+        autostart: false,
+        cast: {},
+      });
+    </script>
+  </body>
+</html>
