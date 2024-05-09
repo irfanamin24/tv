@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IrfanAmin24 - RCTI</title>
+    <title>IrfanAmin24 - Playoff AFC-CAF</title>
     <script
       disable-devtool-auto
       src="https://cdn.jsdelivr.net/npm/disable-devtool"
@@ -50,16 +50,38 @@
   </head>
 
   <body>
-    <div id="tv" class="container">
-      <iframe
-        src="https://6d42a49f.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1pdF9GSUZBUGx1c19ITFM/playlist.m3u8"
-        class="responsive-iframe"
-        allow="encrypted-media"
-        scrolling="no"
-        frameborder="0"
-        gesture="media"
-        allowfullscreen="allowfullscreen"
-      ></iframe>
-    </div>
+    <div id="player"></div>
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.0/jwplayer.js"></script>
+    <script>
+      jwplayer.key = "uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=";
+    </script>
+    <script>
+      var playerInstance = jwplayer("player");
+
+      playerInstance.setup({
+        playlist: [
+          {
+            title: "Playoff AFC-CAF",
+            image: "https://i.ibb.co/51hKXQv/Banner.jpg",
+            sources: [
+              {
+                default: false,
+                file: "https://6d42a49f.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1pdF9GSUZBUGx1c19ITFM/playlist.m3u8",
+                label: "0",
+              },
+            ],
+          },
+        ],
+        controls: true,
+        displaytitle: true,
+        fullscreen: "true",
+        primary: "html5",
+        width: "100%",
+        height: "100%",
+        aspectratio: "16:9",
+        autostart: false,
+        cast: {},
+      });
+    </script>
   </body>
 </html>
